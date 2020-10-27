@@ -14,8 +14,8 @@ public class HelloWorldController {
     private HelloWorldService helloWorldService;
 
     @GetMapping("/test")
-    public String test(){
-        helloWorldService.test();
+    public String test() {
+        helloWorldService.primaryData();
         return "test";
     }
 }

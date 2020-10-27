@@ -2,5 +2,7 @@ package com.zipe.service;
 
 public interface HelloWorldService {
 
-    public String test();
+    public String primaryData();
+
+    public String secondaryData();
 }
