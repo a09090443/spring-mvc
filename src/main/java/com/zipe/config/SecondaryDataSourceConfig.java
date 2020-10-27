@@ -1,5 +1,6 @@
 package com.zipe.config;
 
+import com.zaxxer.hikari.HikariDataSource;
 import com.zipe.config.base.BaseDataSourceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,52 +27,14 @@ import java.util.Properties;
         transactionManagerRef = "secondaryTransactionManager"
 )
 public class SecondaryDataSourceConfig extends BaseDataSourceConfig {
-//    @Autowired
-//    private Environment env;
-//
-//    @Bean(name = "secondaryDataSource")
-//    public DataSource secondaryDataSource() {
-//        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-//        dataSource.setDriverClassName(env.getProperty("secondary.datasource.driverClassName"));
-//        dataSource.setUrl(env.getProperty("secondary.datasource.url"));
-//        dataSource.setUsername(env.getProperty("secondary.datasource.username"));
-//        dataSource.setPassword(env.getProperty("secondary.datasource.password"));
-//
-//        return dataSource;
-//    }
-//
-//    @Bean(name = "secondaryTransactionManager")
-//    public PlatformTransactionManager secondaryTransactionManager() {
-//        EntityManagerFactory factory = secondaryEntityManagerFactory().getObject();
-//        return new JpaTransactionManager(factory);
-//    }
-//
-//    @Bean(name = "secondaryEntityManagerFactory")
-//    public LocalContainerEntityManagerFactoryBean secondaryEntityManagerFactory() {
-//        LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-//        factory.setDataSource(secondaryDataSource());
-//        factory.setPackagesToScan("com.zipe.model.secondary");
-//        factory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
-//
-//        Properties jpaProperties = new Properties();
-//        jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
-//        jpaProperties.put("hibernate.show-sql", env.getProperty("spring.jpa.show-sql"));
-//        jpaProperties.put("hibernate.dialect", env.getProperty("spring.jpa.hibernate.dialect"));
-//        factory.setJpaProperties(jpaProperties);
-//
-//        return factory;
-//    }
 
     @Override
     @Bean(name = "secondaryDataSource")
     protected DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("secondary.datasource.driverClassName"));
-        dataSource.setUrl(env.getProperty("secondary.datasource.url"));
-        dataSource.setUsername(env.getProperty("secondary.datasource.username"));
-        dataSource.setPassword(env.getProperty("secondary.datasource.password"));
-
-        return dataSource;
+        baseHikariConfig().setJdbcUrl(env.getProperty("secondary.datasource.url")); //資料來源
+        baseHikariConfig().setUsername(env.getProperty("secondary.datasource.username")); //使用者名稱
+        baseHikariConfig().setPassword(env.getProperty("secondary.datasource.password")); //密碼
+        return new HikariDataSource(baseHikariConfig());
     }
 
     @Override

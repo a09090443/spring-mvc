@@ -1,5 +1,7 @@
 package com.zipe.config;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import com.zipe.config.base.BaseDataSourceConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -31,13 +33,10 @@ public class PrimaryDataSourceConfig extends BaseDataSourceConfig {
     @Override
     @Bean(name = "primaryDataSource")
     protected DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("primary.datasource.driverClassName"));
-        dataSource.setUrl(env.getProperty("primary.datasource.url"));
-        dataSource.setUsername(env.getProperty("primary.datasource.username"));
-        dataSource.setPassword(env.getProperty("primary.datasource.password"));
-
-        return dataSource;
+        baseHikariConfig().setJdbcUrl(env.getProperty("primary.datasource.url")); //資料來源
+        baseHikariConfig().setUsername(env.getProperty("primary.datasource.username")); //使用者名稱
+        baseHikariConfig().setPassword(env.getProperty("primary.datasource.password")); //密碼
+        return new HikariDataSource(baseHikariConfig());
     }
 
     @Override
