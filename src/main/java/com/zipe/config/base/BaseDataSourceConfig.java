@@ -23,7 +23,7 @@ public abstract class BaseDataSourceConfig {
     protected abstract LocalContainerEntityManagerFactoryBean entityManagerFactory();
 
     @Bean("baseHikariConfig")
-    protected HikariConfig baseHikariConfig(){
+    protected HikariConfig baseHikariConfig() {
         HikariConfig config = new HikariConfig();
         config.addDataSourceProperty("cachePrepStmts", "true"); //是否自定義配置，為true時下面兩個引數才生效
         config.addDataSourceProperty("prepStmtCacheSize", "250"); //連線池大小預設25，官方推薦250-500
@@ -36,10 +36,18 @@ public abstract class BaseDataSourceConfig {
         config.addDataSourceProperty("cacheServerConfiguration", "true");
         config.addDataSourceProperty("elideSetAutoCommits", "true");
         config.addDataSourceProperty("maintainTimeStats", "false");
+        config.setMinimumIdle(5);
+        config.setMaximumPoolSize(20);
+        config.setIdleTimeout(30000);
+        config.setPoolName("Hikari");
+        config.setMaxLifetime(2000000);
+        config.setConnectionTimeout(30000);
+        config.setAutoCommit(true);
+        config.setConnectionTestQuery("SELECT 1");
         return config;
     }
 
-    protected Properties hibernateSetting(){
+    protected Properties hibernateSetting() {
         Properties jpaProperties = new Properties();
         jpaProperties.put("hibernate.hbm2ddl.auto", env.getProperty("spring.jpa.hibernate.ddl-auto"));
         jpaProperties.put("hibernate.show-sql", env.getProperty("spring.jpa.show-sql"));

@@ -34,6 +34,7 @@ public class SecondaryDataSourceConfig extends BaseDataSourceConfig {
         baseHikariConfig().setJdbcUrl(env.getProperty("secondary.datasource.url")); //資料來源
         baseHikariConfig().setUsername(env.getProperty("secondary.datasource.username")); //使用者名稱
         baseHikariConfig().setPassword(env.getProperty("secondary.datasource.password")); //密碼
+        baseHikariConfig().setDriverClassName(env.getProperty("secondary.datasource.driverClassName"));
         return new HikariDataSource(baseHikariConfig());
     }
 
