@@ -1,4 +1,4 @@
-package com.zipe.aspect;
+package com.zipe.annotation;
 
 import java.lang.annotation.*;
 

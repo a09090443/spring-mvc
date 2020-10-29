@@ -5,6 +5,8 @@ import com.zipe.config.base.BaseDataSourceConfig;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.*;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
@@ -86,5 +88,17 @@ public class DataSourceConfig extends BaseDataSourceConfig {
     @Qualifier("multiEntityManager")
     public PlatformTransactionManager multiTransactionManager() {
         return new JpaTransactionManager(multiEntityManager().getObject());
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        return new JdbcTemplate(dataSource);
+    }
+
+    @Bean
+    public NamedParameterJdbcDaoSupport namedParameterJdbcDaoSupport(DataSource dataSource) {
+        NamedParameterJdbcDaoSupport dao = new NamedParameterJdbcDaoSupport();
+        dao.setDataSource(dataSource);
+        return dao;
     }
 }

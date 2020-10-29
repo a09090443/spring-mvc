@@ -1,6 +1,6 @@
 package com.zipe.service.impl;
 
-import com.zipe.aspect.TargetDataSource;
+import com.zipe.annotation.TargetDataSource;
 import com.zipe.model.primary.InvoM020;
 import com.zipe.model.secondary.Reinvpf;
 import com.zipe.repository.primary.InvoM020Repository;
