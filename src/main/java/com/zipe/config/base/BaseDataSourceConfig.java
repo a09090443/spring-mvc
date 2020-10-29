@@ -16,12 +16,6 @@ public abstract class BaseDataSourceConfig {
     @Autowired
     protected Environment env;
 
-    protected abstract DataSource dataSource();
-
-    protected abstract PlatformTransactionManager dataSource(EntityManagerFactory entityManagerFactory);
-
-    protected abstract LocalContainerEntityManagerFactoryBean entityManagerFactory();
-
     @Bean("baseHikariConfig")
     protected HikariConfig baseHikariConfig() {
         HikariConfig config = new HikariConfig();
