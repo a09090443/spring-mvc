@@ -91,12 +91,12 @@ public class DataSourceConfig extends BaseDataSourceConfig {
     }
 
     @Bean
-    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+    public JdbcTemplate jdbcTemplate(@Qualifier("dataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 
     @Bean
-    public NamedParameterJdbcDaoSupport namedParameterJdbcDaoSupport(DataSource dataSource) {
+    public NamedParameterJdbcDaoSupport namedParameterJdbcDaoSupport(@Qualifier("dataSource") DataSource dataSource) {
         NamedParameterJdbcDaoSupport dao = new NamedParameterJdbcDaoSupport();
         dao.setDataSource(dataSource);
         return dao;

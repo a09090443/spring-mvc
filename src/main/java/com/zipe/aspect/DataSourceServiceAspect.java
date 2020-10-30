@@ -6,11 +6,13 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Aspect
 @Component
+@Order(-1)// 保證該AOP在@Transactional之前執行
 public class DataSourceServiceAspect {
 
     @Pointcut("execution(* com.zipe.primary.service..*.*(..))")
@@ -32,6 +34,7 @@ public class DataSourceServiceAspect {
     }
 
     private Object switchDataSource(String dataSourceName, ProceedingJoinPoint pjp) throws Throwable {
+        DataSourceHolder.clearDataSourceName();
         if (!DataSourceHolder.containsDataSource(dataSourceName)) {
             log.error("資料來源[{}]不存在，使用預設資料來源 > {}" + dataSourceName + pjp.getSignature());
         } else {
