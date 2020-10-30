@@ -26,11 +26,8 @@ import java.util.Map;
  * @author adam.yeh
  */
 @Slf4j
-@Repository("BaseJDBC")
 public abstract class BaseJDBC {
 
-    @Autowired
-    protected JdbcTemplate jdbcTemplate;
     @Autowired
     protected NamedParameterJdbcDaoSupport support;
 
