@@ -13,8 +13,13 @@ import java.util.List;
 @Transactional
 @Service
 public class PrimaryServiceImpl implements PrimaryService {
+
+    private final InvoiceJDBC jdbc;
+    
     @Autowired
-    private InvoiceJDBC jdbc;
+    PrimaryServiceImpl(InvoiceJDBC jdbc){
+        this.jdbc = jdbc;
+    }
 
     @Override
     @Transactional(readOnly = true)
